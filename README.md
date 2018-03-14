@@ -11,6 +11,7 @@ To get the ids of all the robot created so far:
 
 To place a robot:
 `curl -H "Content-Type: application/json" -X POST -d '{"x":1, "y":2, "face":"NORTH"}' http://localhost:8080/api/robot`
+it returns the id of the robot created on the table.
 
 To move a robot:
 `curl -H "Content-Type: application/json" -X POST http://localhost:8080/api/robot/<ROBOT ID HERE>/move`
