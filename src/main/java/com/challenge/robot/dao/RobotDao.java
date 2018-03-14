@@ -5,22 +5,22 @@ import com.challenge.robot.model.Position;
 import com.challenge.robot.model.Robot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
-public class Dao {
+public class RobotDao {
 
   private JdbcTemplate jdbcTemplate;
 
   @Autowired
-  public Dao(JdbcTemplate jdbcTemplate) {
+  public RobotDao(JdbcTemplate jdbcTemplate) {
     this.jdbcTemplate = jdbcTemplate;
   }
 
@@ -50,10 +50,13 @@ public class Dao {
       robot.getPosition().getX(),
       robot.getPosition().getY(),
       robot.getPosition().getFace().toString(),
-      robot.getId());
+      robot.getId().toString());
   }
 
-  public List<String> all() {
-    return jdbcTemplate.query("select robotId from robot", (rs, rowNum) -> rs.getString("robotId"));
+  public List<UUID> getAllRobotIds() {
+    return jdbcTemplate.query("select robotId from robot", (rs, rowNum) -> rs.getString("robotId"))
+      .stream()
+      .map(UUID::fromString)
+      .collect(Collectors.toList());
   }
 }

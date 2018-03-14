@@ -1,6 +1,6 @@
 package com.challenge.robot.config;
 
-import com.challenge.robot.dao.Dao;
+import com.challenge.robot.dao.RobotDao;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.derby.jdbc.EmbeddedDataSource;
@@ -24,7 +24,7 @@ import java.sql.SQLException;
  * </p>
  */
 @Configuration
-@ComponentScan(basePackageClasses = {Dao.class})
+@ComponentScan(basePackageClasses = {RobotDao.class})
 class DatabaseConfig {
 
   @Bean

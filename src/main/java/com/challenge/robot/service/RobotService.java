@@ -1,6 +1,6 @@
 package com.challenge.robot.service;
 
-import com.challenge.robot.dao.Dao;
+import com.challenge.robot.dao.RobotDao;
 import com.challenge.robot.model.Direction;
 import com.challenge.robot.model.Face;
 import com.challenge.robot.model.Position;
@@ -16,26 +16,28 @@ import java.util.UUID;
  * Simple service that delegate to the underlying DAO.
  */
 @Component
-public class Service {
+public class RobotService {
 
-  private Dao dao;
+  private RobotDao dao;
   private TablePositionValidator validator;
   private Rotator rotator;
   private Mover mover;
 
   @Autowired
-  public Service(Dao dao, TablePositionValidator validator, Rotator rotator, Mover mover) {
+  public RobotService(RobotDao dao, TablePositionValidator validator, Rotator rotator, Mover mover) {
     this.dao = dao;
     this.validator = validator;
     this.rotator = rotator;
     this.mover = mover;
   }
 
-  public void place(Position position) {
+  public Optional<UUID> place(Position position) {
     if (validator.validate(position)) {
       Robot robot = new Robot(position);
       dao.create(robot);
+      return Optional.ofNullable(robot.getId());
     }
+    return Optional.empty();
   }
 
   public void move(UUID id) {
@@ -74,7 +76,7 @@ public class Service {
     return Optional.empty();
   }
 
-  public List<String> allIds() {
-    return dao.all();
+  public List<UUID> getAllRobotIds() {
+    return dao.getAllRobotIds();
   }
 }

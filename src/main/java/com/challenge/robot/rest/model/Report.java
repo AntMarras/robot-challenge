@@ -1,4 +1,4 @@
-package com.challenge.robot.rest;
+package com.challenge.robot.rest.model;
 
 public class Report {
   private String output;
